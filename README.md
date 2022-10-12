@@ -21,3 +21,7 @@ python worker.py
 <h2>Requirements</h2>
 
 Check the [requirements.yaml](requirements.yaml) exported from Anaconda.
+
+<h2>Model</h2>
+<p>The parasite model `model_best.pth` is not uploaded since it is too big (>100MB).
+You can find it `/home/simmani91/web_parasite/model_best.pth` in 150 server.</p>
