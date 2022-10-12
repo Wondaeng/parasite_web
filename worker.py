@@ -32,10 +32,25 @@ from detectron2.data import MetadataCatalog, DatasetCatalog
 
 from detectron2.engine import DefaultTrainer
 from detectron2.config import get_cfg
-import os
+import os, json
+
+
+
+# Currently only one parameter
+def parse_parameters(usr_pth):
+    json_pth = os.path.join(usr_pth, 'setting.json')
+    with open(json_pth, 'r') as f:
+        json_data = json.load(f)
+    threshold = int(json_data['threshold']) / 100
+    os.system(f"rm {json_pth}")
+    return threshold
+
 
 def build_predictor(weights='model_best.pth', num_classes=1, threshold=0.8):
-    # Loading parasite trained model
+    # Loading pre-trained model (Pytorch)
+    '''weights = FasterRCNN_ResNet50_FPN_Weights.DEFAULT
+    model = torchvision.models.detection.fasterrcnn_resnet50_fpn(weights = weights)'''
+    # Loading parasite trained model and wrap it with predictor
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"))
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = num_classes
@@ -44,10 +59,9 @@ def build_predictor(weights='model_best.pth', num_classes=1, threshold=0.8):
     predictor = DefaultPredictor(cfg)
     return predictor
 
+
+# Run inference with given predictor
 def inference(usr_pth, file_name, save_pth, predictor):
-    # Loading pre-trained model
-    '''weights = FasterRCNN_ResNet50_FPN_Weights.DEFAULT
-    model = torchvision.models.detection.fasterrcnn_resnet50_fpn(weights = weights)'''
     img = cv2.imread(os.path.join(usr_pth, file_name))
     outputs = predictor(img)
     v = Visualizer(img[:, :, ::-1], scale=1.0)
@@ -61,6 +75,7 @@ def vid_to_fr(usr_pth, n=20):
         file_path = os.path.join(usr_pth, file)
         if mimetypes.guess_type(file_path)[0].startswith('video'): # If the file is video
             
+            # Extract frames from video using cv2
             video = cv2.VideoCapture(file_path)
             
             count = 0
@@ -74,10 +89,10 @@ def vid_to_fr(usr_pth, n=20):
                     count += 1
                 
             video.release()
-            os.system(f"rm {file_path}")
+            os.system(f"rm {file_path}") # Currently ERROR here if a space in a file name
     return None
 
-    
+# Below section is for the case when using Pytorch for the inference    
 '''def draw_boxes(result, orig, save_pth, threshold=0.7):
     result = result[0]
     COLORS = np.random.uniform(0, 255, size=(1000, 3))
@@ -99,6 +114,7 @@ def vid_to_fr(usr_pth, n=20):
     return None'''
 
 
+# Server's main run
 while True:
     dir_lst = os.listdir('./static/results')
     for usr in dir_lst:
@@ -109,9 +125,11 @@ while True:
         if len(infer_lst) == 0:
             print("2")
             usr_data_pth = os.path.join('./static/user_data', usr)
+            threshold = parse_parameters(usr_data_pth)
+            print(threshold)
             vid_to_fr(usr_data_pth)            
             imgs_data = os.listdir(usr_data_pth)
-            predictor = build_predictor()
+            predictor = build_predictor(threshold = threshold)
             for img_data in natsorted(imgs_data):
                 print("3")
                 save_pth = os.path.join(usr_result_pth, img_data)
