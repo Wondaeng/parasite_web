@@ -8,9 +8,9 @@
 
 <h2>How to Use</h2>
 
-<p>```bash
-  python app.py
-  ``` 
+<p>    ```bash
+    git clone --recurse-submodules git@github.com:lolipopshock/Detectron2_AL.git
+    ```
   to run the server using Flask. Port is set as 5002.</p>
 
 <p>```bash
