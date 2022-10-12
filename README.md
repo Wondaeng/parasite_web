@@ -8,10 +8,10 @@
 
 <h2>How to Use</h2>
 
-```bash python app.py```
+```python app.py```
  <p>to run the server using Flask. Port is set as 5002.</p>
 
-```bash python worker.py``` 
+```python worker.py``` 
 <p>to run the worker. It regularly checkes the difference between the user_data and results folder.</p>
 
 <h2>Requirements</h2>
