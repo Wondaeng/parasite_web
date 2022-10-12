@@ -8,14 +8,10 @@
 
 <h2>How to Use</h2>
 
-<p>    ```bash
-    git clone --recurse-submodules git@github.com:lolipopshock/Detectron2_AL.git
-    ```
+<p>```python app.py```
   to run the server using Flask. Port is set as 5002.</p>
 
-<p>```bash
-  python worker.py
-  ``` 
+<p>```python worker.py``` 
   to run the worker. It regularly checkes the difference between the user_data and results folder.</p>
 
 <h2>Requirements</h2>
