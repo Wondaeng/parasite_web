@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OPD - Results</title>
+
+    <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <script>
+        function imshow(_src){
+            document.getElementById("image_show").src = _src 
+        }
+    </script>
+
+</head>
+
+<body>
+    <nav>
+        <label class="logo">Online Parasite Detector</label>
+        <ul>
+            <li><a href="/">Home</a></li>
+            
+            {% if g.user %}
+                <li><a href="/results">Results</a></li>
+            {% else %}
+                <li><a href="/search">Search</a></li>
+            {% endif %}
+    
+            <li><a href="/about">About</a></li>
+    
+            {% if g.user %}
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/login">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div style="padding-top:80px;">
+        <div style="text-align: center;">
+            <h1 style="display: block;">Inference Results of Task: {{task_name}}</h1>
+        </div>
+        
+        
+        <div class="container">
+            <div class="item thumbnail_box">
+                {% for url in url_lst %}
+                <img class="thumbnail round" src="{{ url_for('static', filename=url) }}" onclick='imshow(this.src)'/>
+                {% endfor %}
+            </div>
+        
+            <div class="item imshow_box" >
+                <img id="image_show"/>
+            </div>
+            
+        </div>
+
+    </div>
+
+</body>
+
+</html>

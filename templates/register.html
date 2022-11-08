@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OPD - Register</title>
+
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <label class="logo">Online Parasite Detector</label>
+        <ul>
+            <li><a href="/">Home</a></li>
+            
+            {% if g.user %}
+                <li><a href="/results">Results</a></li>
+            {% else %}
+                <li><a href="/search">Search</a></li>
+            {% endif %}
+    
+            <li><a href="/about">About</a></li>
+    
+            {% if g.user %}
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/login">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div style="padding-top:80px;">
+        <div style="text-align: center;">
+            <h1 style="display: block;">Sign Up</h1>
+        </div>
+        <form id="register_form" action="/register" method ="POST" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            {% include "form_errors.html" %}
+            <label for="userid">User ID</label>
+            <p><input type="text" id="userid" name="userid" 
+                value="{{ form.userid.data or '' }}" autocomplete="off"></p>
+            
+            <label for="password">Password</label>
+            <p><input type="password" id="password" name="password" 
+                value="{{ form.password.data or '' }}" autocomplete="off"></p>
+
+            <label for="re_password">Check Password</label>
+            <p><input type="password" id="re_password" name="re_password" 
+                value="{{ form.re_password.data or '' }}" autocomplete="off"></p>
+
+            <label for="email">Email</label>
+            <p><input type="email" id="email" name="email" 
+                value="{{ form.email.data or '' }}" autocomplete="off"></p>
+
+            <p><input type="submit" id="register_submit" value="Sign up"></p>
+
+        </form>
+    </div>
+
+</body>
+
+</html>

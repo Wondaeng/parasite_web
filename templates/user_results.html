@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OPD - Main</title>
+    <script src="static/lib/jquery/jquery.min.js"></script>
+    <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <script>
+        function imshow(_src){
+            document.getElementById("image_show").src = _src 
+        }
+    </script>
+    <base href="/results/" />
+</head>
+
+<body>
+    <nav>
+        <label class="logo">Online Parasite Detector</label>
+        <ul>
+            <li><a href="/">Home</a></li>
+            
+            {% if g.user %}
+                <li><a href="/results">Results</a></li>
+            {% else %}
+                <li><a href="/search">Search</a></li>
+            {% endif %}
+    
+            <li><a href="/about">About</a></li>
+    
+            {% if g.user %}
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/login">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+<div style="padding-top:80px;">
+
+    <h1 style="display: block;">Results for {{ g.user.userid }}!</h1>   
+    <ul id="user_task_list">
+    {% for task in task_list %}
+        <li><a href="{{ task }}">{{ task }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+
+</body>
+
+</html>
