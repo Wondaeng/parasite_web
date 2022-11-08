@@ -37,8 +37,8 @@ import os, json
 
 
 # Currently only one parameter
-def parse_parameters(usr_pth):
-    json_pth = os.path.join(usr_pth, 'setting.json')
+def parse_parameters(task_pth):
+    json_pth = os.path.join(task_pth, 'setting.json')
     with open(json_pth, 'r') as f:
         json_data = json.load(f)
     threshold = int(json_data['threshold']) / 100
@@ -61,8 +61,8 @@ def build_predictor(weights='model_best.pth', num_classes=1, threshold=0.8):
 
 
 # Run inference with given predictor
-def inference(usr_pth, file_name, save_pth, predictor):
-    img = cv2.imread(os.path.join(usr_pth, file_name))
+def inference(task_pth, file_name, save_pth, predictor):
+    img = cv2.imread(os.path.join(task_pth, file_name))
     outputs = predictor(img)
     v = Visualizer(img[:, :, ::-1], scale=1.0)
     out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
@@ -70,9 +70,9 @@ def inference(usr_pth, file_name, save_pth, predictor):
     return None
 
 
-def vid_to_fr(usr_pth, n=20):
-    for file in os.listdir(usr_pth):
-        file_path = os.path.join(usr_pth, file)
+def vid_to_fr(task_pth, n=20):
+    for file in os.listdir(task_pth):
+        file_path = os.path.join(task_pth, file)
         if mimetypes.guess_type(file_path)[0].startswith('video'): # If the file is video
             
             # Extract frames from video using cv2
@@ -117,24 +117,29 @@ def vid_to_fr(usr_pth, n=20):
 # Server's main run
 while True:
     dir_lst = os.listdir('./static/results')
+    print(dir_lst)
     for usr in dir_lst:
-        print(usr)
-        print("1")
+        usr_data_pth = os.path.join('./static/user_data', usr)
         usr_result_pth = os.path.join('./static/results', usr)
-        infer_lst = os.listdir(usr_result_pth)
-        if len(infer_lst) == 0:
-            print("2")
-            usr_data_pth = os.path.join('./static/user_data', usr)
-            threshold = parse_parameters(usr_data_pth)
-            print(threshold)
-            vid_to_fr(usr_data_pth)            
-            imgs_data = os.listdir(usr_data_pth)
-            predictor = build_predictor(threshold = threshold)
-            for img_data in natsorted(imgs_data):
-                print("3")
-                save_pth = os.path.join(usr_result_pth, img_data)
-                outputs = inference(usr_data_pth, img_data, save_pth, predictor)
-        else:
-            pass
-    print('sleep')
+        tasks = os.listdir(usr_data_pth)
+        print(tasks)
+        for task in tasks:
+            task_data_pth = os.path.join(usr_data_pth, task)
+            task_result_pth = os.path.join(usr_result_pth, task)
+            infer_lst = os.listdir(task_result_pth)
+            print(infer_lst)
+            if len(infer_lst) == 0:
+                print(f"Start inference for {task_data_pth}")
+                threshold = parse_parameters(task_data_pth)
+                print(threshold)
+                vid_to_fr(task_data_pth)            
+                imgs_data = os.listdir(task_data_pth)
+                predictor = build_predictor(threshold = threshold)
+                for img_data in natsorted(imgs_data):
+                    print("3")
+                    save_pth = os.path.join(task_result_pth, img_data)
+                    outputs = inference(task_data_pth, img_data, save_pth, predictor)
+            else:
+                pass
+        print('sleep')
     time.sleep(5)
