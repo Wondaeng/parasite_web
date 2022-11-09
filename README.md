@@ -16,7 +16,7 @@ python app.py
 ```bash
 python worker.py
 ``` 
-<p>to run the worker. It regularly checkes the difference between the user_data and results folder.</p>
+<p>to run the worker. It regularly checks the difference between the user_data and results folder.</p>
 
 <h2>Requirements</h2>
 
