@@ -21,6 +21,7 @@ python worker.py
 <h2>Requirements</h2>
 
 Check the [requirements.yaml](requirements.yaml) exported from Anaconda.
+It requires Detectron2 for inference.
 
 <h2>Model</h2>
 <p>The parasite model `model_best.pth` is not uploaded since it is too big (>100MB).
