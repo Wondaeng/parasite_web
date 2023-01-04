@@ -1,10 +1,11 @@
 import torch
-import cv2, os, time
-import os, cv2, torchvision
+import cv2, os, time, csv, torchvision
 import torchvision.transforms.functional as TF
 import numpy as np
 import mimetypes
 from natsort import natsorted
+import smtplib
+from email.mime.text import MIMEText
 
 # Detectron2 for inference
 from detectron2.config import get_cfg
@@ -21,7 +22,6 @@ setup_logger()
 
 # import some common libraries
 import matplotlib.pyplot as plt
-import numpy as np
 import cv2
 
 # import some common detectron2 utilities
@@ -34,112 +34,94 @@ from detectron2.engine import DefaultTrainer
 from detectron2.config import get_cfg
 import os, json
 
-
-
-# Currently only one parameter
-def parse_parameters(task_pth):
-    json_pth = os.path.join(task_pth, 'setting.json')
-    with open(json_pth, 'r') as f:
-        json_data = json.load(f)
-    threshold = int(json_data['threshold']) / 100
-    os.system(f"rm {json_pth}")
-    return threshold
-
-
-def build_predictor(weights='model_best.pth', num_classes=1, threshold=0.8):
-    # Loading pre-trained model (Pytorch)
-    '''weights = FasterRCNN_ResNet50_FPN_Weights.DEFAULT
-    model = torchvision.models.detection.fasterrcnn_resnet50_fpn(weights = weights)'''
-    # Loading parasite trained model and wrap it with predictor
-    cfg = get_cfg()
-    cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"))
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = num_classes
-    cfg.MODEL.WEIGHTS = weights
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = threshold
-    predictor = DefaultPredictor(cfg)
-    return predictor
-
-
-# Run inference with given predictor
-def inference(task_pth, file_name, save_pth, predictor):
-    img = cv2.imread(os.path.join(task_pth, file_name))
-    outputs = predictor(img)
-    v = Visualizer(img[:, :, ::-1], scale=1.0)
-    out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
-    out.save(save_pth)
-    return None
-
-
-def vid_to_fr(task_pth, n=20):
-    for file in os.listdir(task_pth):
-        file_path = os.path.join(task_pth, file)
-        if mimetypes.guess_type(file_path)[0].startswith('video'): # If the file is video
-            
-            # Extract frames from video using cv2
-            video = cv2.VideoCapture(file_path)
-            
-            count = 0
-            success = True
-            while(success):
-                success, image = video.read()
-                if(int(video.get(1)) % n == 0): # extract 1 frame per n frames
-                    save_name = os.path.splitext(file_path)[0]
-                    cv2.imwrite(f'{save_name}_f{count}.jpg', image)
-                    print('Saved frame number :', str(int(video.get(1))))
-                    count += 1
-                
-            video.release()
-            os.system(f"rm {file_path}") # Currently ERROR here if a space in a file name
-    return None
-
-# Below section is for the case when using Pytorch for the inference    
-'''def draw_boxes(result, orig, save_pth, threshold=0.7):
-    result = result[0]
-    COLORS = np.random.uniform(0, 255, size=(1000, 3))
-    for i in range(0, len(result["boxes"])):
-        confidence = result["scores"][i]
-
-        if confidence > threshold:
-            idx = int(result["labels"][i])
-            box = result["boxes"][i].detach().numpy()
-            (startX, startY, endX, endY) = box.astype("int")
-
-            label = f"{idx}: {confidence*100:.2f}"
-
-            cv2.rectangle(orig, (startX, startY), (endX, endY), COLORS[idx], 3)
-            y = startY - 15 if startY - 15 > 15 else startY + 15
-            cv2.putText(orig, label, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 1, COLORS[idx], 3)
-
-    cv2.imwrite(f"{save_pth}", orig)
-    return None'''
-
+from sahi_inference import build_detection_model, batch_inference
+from utils import send_email, vid_to_fr, parse_bbox_info
 
 # Server's main run
-while True:
-    dir_lst = os.listdir('./static/results')
-    print(dir_lst)
-    for usr in dir_lst:
-        usr_data_pth = os.path.join('./static/user_data', usr)
-        usr_result_pth = os.path.join('./static/results', usr)
-        tasks = os.listdir(usr_data_pth)
-        print(tasks)
-        for task in tasks:
-            task_data_pth = os.path.join(usr_data_pth, task)
-            task_result_pth = os.path.join(usr_result_pth, task)
-            infer_lst = os.listdir(task_result_pth)
-            print(infer_lst)
-            if len(infer_lst) == 0:
-                print(f"Start inference for {task_data_pth}")
-                threshold = parse_parameters(task_data_pth)
-                print(threshold)
-                vid_to_fr(task_data_pth)            
-                imgs_data = os.listdir(task_data_pth)
-                predictor = build_predictor(threshold = threshold)
-                for img_data in natsorted(imgs_data):
-                    print("3")
-                    save_pth = os.path.join(task_result_pth, img_data)
-                    outputs = inference(task_data_pth, img_data, save_pth, predictor)
-            else:
-                pass
-        print('sleep')
-    time.sleep(5)
+if __name__ == '__main__':
+    import time
+    import pandas as pd
+    import sqlite3
+
+    while True:
+        # Read sqlite query results into a pandas DataFrame
+        con = sqlite3.connect("db.sqlite")
+
+        task_df = pd.read_sql_query("SELECT * from task_table", con)
+        user_df = pd.read_sql_query("SELECT * from user_table", con)
+        print(task_df)
+        print(user_df)
+
+        for id in range(len(task_df.index)): # Get id to parse data row by row
+            task_stage = task_df.iloc[id]['process_stage']  # Return 0(=False) or 1(=True) value
+            if not task_stage =='done':
+
+                con.execute("UPDATE task_table SET process_stage = ? Where id = ?", ('being_processed', id+1))
+                con.commit()
+
+                # Parse the information of current task
+                user_name = task_df.iloc[id]['user_name']
+                task_name = task_df.iloc[id]['task_name']
+                threshold = int(task_df.iloc[id]['sensitivity'])/100
+
+                data_path = os.path.join('./static/user_data', user_name, task_name)
+                visual_path = task_df.iloc[id]['visual_path']  # Equals to 'project' parameter of sahi predict function, thus will saved in .../visual_path/exp/visuals
+                
+                video_name_lst = os.listdir(data_path)
+                video_path_lst = [os.path.join(data_path, i) for i in video_name_lst]
+                result_path_lst = [os.path.join(visual_path, i) for i in video_name_lst]
+
+                detection_model = build_detection_model('./model_best.pth', "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml", confidence_threshold=threshold)  # Hard-coded !!!
+
+                # Convert uploaded videos into frames in img_src
+                for vid_path, vid_name, result_path in zip(video_path_lst, video_name_lst, result_path_lst):
+                    vid_to_fr(vid_path)    
+                    batch_inference(vid_path, detection_model, 'temp_result', f'{user_name}/{task_name}/{vid_name}')
+
+                    os.system(f"mv ./temp_result/{user_name}/{task_name}/{vid_name}/pickles/* {result_path}")
+                    os.system(f"mv ./temp_result/{user_name}/{task_name}/{vid_name}/visuals/* {result_path}")
+                    os.system(f"rm -r temp_result")
+
+
+                # Make .csv file for ordering/filtering in front-end
+                for result_path in result_path_lst:
+                    # Sort image and pickle files in a correct way
+                    result_img_lst = natsorted([i for i in os.listdir(result_path) if i.endswith('.jpg')])
+                    pickle_lst = natsorted([i for i in os.listdir(result_path) if i.endswith('.pickle')])
+
+                    print(pickle_lst)
+                    # Get the number of bounding boxes & maximum confidence for all images in one video folder
+                    parsed_data = [parse_bbox_info(os.path.join(result_path, i)) for i in pickle_lst]
+                    print(parsed_data)
+                    num_of_bbox_lst = [i[0] for i in parsed_data]
+                    max_score_lst = [i[1] for i in parsed_data]
+                    print(num_of_bbox_lst)
+                    print(max_score_lst)
+                    # Convert parsed data to tuples to be written by csv writer
+                    csv_lines = zip(result_img_lst, num_of_bbox_lst, max_score_lst)
+
+                    # Write .csv file
+                    out_file = open(f'{result_path}/metadata.csv', 'w', newline='')
+                    writer = csv.writer(out_file)
+                    header = ['name', 'bbox_num', 'confidence']
+                    writer.writerow(header)
+                    for line in csv_lines:
+                        writer.writerow(line)
+                    out_file.close()
+
+
+                con.execute("UPDATE task_table SET process_stage = ? Where id = ?", ('done', id+1))
+                con.commit()
+
+                c = con.cursor()
+
+                if '%40' in user_name:
+                    user_email = user_name.replace('%40', '@')
+                else:
+                    c.execute('SELECT email FROM user_table WHERE userid = ?', (user_name,))
+                    user_email = str(c.fetchall()[0][0])
+                print(user_email, type(user_email))
+                
+                send_email(user_name, user_email, task_name, info_type='finish')
+        con.close()       
+        time.sleep(10)
