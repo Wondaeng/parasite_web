@@ -1,0 +1,53 @@
+
+<html>
+    <head>
+        <META HTTP-EQUIV="refresh" CONTENT="30">
+    </head>
+    <title>ATS - Working</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
+    <!doctype html>
+    <style>
+        p{
+            padding:10px;
+            margin-left: 100px;
+        }
+    </style>
+    <body>
+        <nav>
+            <label class="logo">Automated Trypanosomiasis Screening</label>
+            <ul>
+                <li><a href="/">Home</a></li>
+                
+                {% if g.user %}
+                    <li><a href="/results">Results</a></li>
+                {% else %}
+                    <li><a href="/search">Search</a></li>
+                {% endif %}
+        
+                <li><a href="/help">Help</a></li>
+        
+                {% if g.user %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <h1 style="margin-top:100px;">Your task {{ query_name }} is now working</h1>
+
+        <p>Please wait a while. This page keeps refreshing automatically every 30 seconds.</p>
+        <p>You will be notified via email when the task is finished.</p>
+
+
+        <p><a href="/">Go Back to Home</a></p>
+
+    </body>
+</html>

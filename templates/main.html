@@ -2,14 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>OPD - Main</title>
+    <title>ATS - Main</title>
     <script src="static/lib/jquery/jquery.min.js"></script>
     <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
 
     <script>
-        function imshow(_src){
-            document.getElementById("image_show").src = _src 
+        // Reload the web page when brower back button is clicked
+        window.addEventListener( "pageshow", function ( event ) {
+              var historyTraversal = event.persisted || 
+                                     ( typeof window.performance != "undefined" && 
+                                          window.performance.getEntriesByType("navigation")[0].type === "back_forward" );
+              if ( historyTraversal ) {
+                // Handle page restore.
+                window.location.reload();
+              }
+            });
+        
+        function smoothScroll(){
+            document.querySelector('#form_upload').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
     </script>
 
@@ -17,7 +30,7 @@
 
 <body>
 <nav>
-    <label class="logo">Online Parasite Detector</label>
+    <label class="logo">Automated Trypanosomiasis Screening</label>
     <ul>
         <li><a href="/">Home</a></li>
         
@@ -27,7 +40,7 @@
             <li><a href="/search">Search</a></li>
         {% endif %}
 
-        <li><a href="/about">About</a></li>
+        <li><a href="/help">Help</a></li>
 
         {% if g.user %}
             <li><a href="/logout">Logout</a></li>
@@ -38,17 +51,18 @@
 </nav>
 
 <div style=" padding-top: 80px;">
-    
-    
     <div style="text-align: center; background-color: aliceblue; overflow:auto; width: 100%;">
+        
         {% if g.user %}
-            <h1 style="display: block;">Welcome, {{ g.user.userid }}!</h1>   
+            <h1 style="display: block;">Welcome, {{ g.user.userid.capitalize() }}!</h1>   
         {% else %}
             <h1 style="display: block;">Welcome!</h1>
         {% endif %}
-            <p style="margin: auto; margin-top: 50px; margin-bottom: 50px; width: 50%">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-        <img src="static/img/petri-dish.png"/>
-        <p style="margin: auto; margin-top: 50px; margin-bottom: 50px; width: 50%">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+        <h3 onclick="smoothScroll()">Click here to submit your task!</h3>
+        <p style="margin: auto; margin-top: 25px; margin-bottom: 25px; width: 50%">This website provides a demo for trypanosome parasite detection from microscopy videos of thick blood smears. This parasite detection component is critical in our pipeline for the automated screening of trypanosomiasis using AI. This website, when completed, aims to demonstrate a proof-of-concept of a trustworthy AI system that can greatly augment lab technicians while also providing an effective human-in-the-loop interface.</p>
+        <p style="margin: auto; margin-top: 25px; margin-bottom: 25px; width: 50%"> A description (an illustrative diagram) of how the website works is provided in the diagram below. </p>
+        <img width="30%" src="static/img/description.png"/>
+        <p style="margin: auto; margin-top: 50px; margin-bottom: 50px; width: 50%">For more detail about how to use, go to help page</p>
     </div>
     
     
@@ -58,25 +72,25 @@
     <style>
         .dropzone {
         width: 50%;
-        height: 200px;
+        height: 20%;
         min-height: 0px !important;
         margin: 0 auto;
         }   
     </style>
 
-    <form id = "form_upload" style="text-align: center; margin: 20px;" action="upload.php" enctype="multipart/form-data" method="POST">
+    <form id = "form_upload" style="text-align: center; margin: 20px;" action="upload" enctype="multipart/form-data" method="POST">
         {% if g.user %}
-            <p><input type="text" style="display:none;" form="form_upload" id ="email_adress" name ="email_adress" 
+            <p><input type="text" style="display:none;" form="form_upload" id ="user_name" name ="user_name" 
                 value="{{ g.user.userid }}" required/></p>
         {% else %}
-            <p>User name: <input type="text" form="form_upload" id ="email_adress" name ="email_adress" required/></p>
+            <p>User email: <input type="text" form="form_upload" id ="email_adress" name ="email_adress" required/></p>
         {% endif %}
             <p>Task name: <input type="text" form="form_upload" id ="task_name" name ="task_name" required/></p>
-        <p style="display: inline;">Confidence threshold<input type="range" form="form_upload" min="1" max="100" value="50" class="slider" id="threshold" name="threshold"/></p>
+        <p style="display: inline;">Sensitivity threshold<input type="range" form="form_upload" min="1" max="100" value="50" class="slider" id="sensitivity" name="sensitivity" required/></p>
         
         <div style="display:inline;" id="show_threshold"></div>%
         <script>
-            var slider = document.getElementById("threshold");
+            var slider = document.getElementById("sensitivity");
             var output = document.getElementById("show_threshold");
             output.innerHTML = slider.value; // Display the default slider value
 

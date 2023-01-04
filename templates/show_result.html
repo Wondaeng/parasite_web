@@ -2,14 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>OPD - Results</title>
+    <title>ATS - Results</title>
 
-    <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
     <script>
         function imshow(_src){
             document.getElementById("image_show").src = _src 
+        }
+
+        function change_order(){
+            var target = document.getElementById("order");
+            if (target.options[target.selectedIndex].value == "name"){
+                document.getElementById("thumbnail_box_name").style.display = "block";
+                document.getElementById("thumbnail_box_bbox").style.display = "none";
+                document.getElementById("thumbnail_box_conf").style.display = "none";
+                document.getElementById("image_show").src =""
+            } else if (target.options[target.selectedIndex].value == "#bbox"){
+                document.getElementById("thumbnail_box_name").style.display = "none";
+                document.getElementById("thumbnail_box_bbox").style.display = "block";
+                document.getElementById("thumbnail_box_conf").style.display = "none";
+                document.getElementById("image_show").src =""
+            } else {
+                document.getElementById("thumbnail_box_name").style.display = "none";
+                document.getElementById("thumbnail_box_bbox").style.display = "none";
+                document.getElementById("thumbnail_box_conf").style.display = "block";
+                document.getElementById("image_show").src =""
+            }
         }
     </script>
 
@@ -17,7 +38,7 @@
 
 <body>
     <nav>
-        <label class="logo">Online Parasite Detector</label>
+        <label class="logo">Automated Trypanosomiasis Screening</label>
         <ul>
             <li><a href="/">Home</a></li>
             
@@ -27,7 +48,7 @@
                 <li><a href="/search">Search</a></li>
             {% endif %}
     
-            <li><a href="/about">About</a></li>
+            <li><a href="/help">Help</a></li>
     
             {% if g.user %}
                 <li><a href="/logout">Logout</a></li>
@@ -38,18 +59,43 @@
     </nav>
     <div style="padding-top:80px;">
         <div style="text-align: center;">
-            <h1 style="display: block;">Inference Results of Task: {{task_name}}</h1>
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <h1 style="display: block;">Inference Results of Video: {{video_name}}</h1>
+        </div>
+        <div id="filter_box">
+            <span>Order by: </span>
+            <select id="order" name="order" onchange="change_order()">
+                <option value="name">name</option>
+                <option value="confidence">confidence</option>
+                <option value="#bbox">#bbox</option>
+            </select>
         </div>
         
-        
-        <div class="container">
-            <div class="item thumbnail_box">
+        <div class="thumbnail_container">
+
+            <div class="thumbnail_item thumbnail_box" id="thumbnail_box_name">
                 {% for url in url_lst %}
-                <img class="thumbnail round" src="{{ url_for('static', filename=url) }}" onclick='imshow(this.src)'/>
+                <img class="result_thumbnail round" src="{{ url_for('static', filename=url) }}" onclick='imshow(this.src)'/>
+                {% endfor %}
+            </div>
+
+            <div class="thumbnail_item thumbnail_box" id="thumbnail_box_bbox">
+                {% for url in url_lst_bbox %}
+                <img class="result_thumbnail round" src="{{ url_for('static', filename=url) }}" onclick='imshow(this.src)'/>
+                {% endfor %}
+            </div>
+
+            <div class="thumbnail_item thumbnail_box" id="thumbnail_box_conf">
+                {% for url in url_lst_conf %}
+                <img class="result_thumbnail round" src="{{ url_for('static', filename=url) }}" onclick='imshow(this.src)'/>
                 {% endfor %}
             </div>
         
-            <div class="item imshow_box" >
+            <div class="thumbnail_item imshow_box" >
                 <img id="image_show"/>
             </div>
             

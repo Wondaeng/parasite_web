@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ATS - Search</title>
+
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
+    
+    <style>
+        form fieldset p{
+            margin: 20px;
+        }
+  
+    </style>
+
+</head>
+
+<body>
+    <nav>
+        <label class="logo">Automated Trypanosomiasis Screening</label>
+        <ul>
+            <li><a href="/">Home</a></li>
+            
+            {% if g.user %}
+                <li><a href="/results">Results</a></li>
+            {% else %}
+                <li><a href="/search">Search</a></li>
+            {% endif %}
+    
+            <li><a href="/help">Help</a></li>
+    
+            {% if g.user %}
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/login">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div style="text-align: center; padding-top:80px;">
+        <div style="text-align: center; background-color: aliceblue; overflow:auto; width: 100%;">
+            <h1 style="display: block;">Search the task with your information</h1>   
+            <p style="margin: auto; margin-top: 50px; margin-bottom: 50px; width: 50%">To access your tasks' result page, please put your email adress and task name you used in the field below.</p>
+        </div>
+
+        <form style="width:50%; display: inline-block;" id="search_form" action="/search" method ="POST" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Put your task information</legend>
+                <p>Email Adress: <input type="email" name="email" id="email" placeholder="sophie@example.edu" required></p>
+                <p>Task Name: <input type="text" name="task_name" id="task_name" placeholder="Task name" required></p>
+                <input style="margin-bottom:20px;" type="submit" value="Search">                
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+
+</html>

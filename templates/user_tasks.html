@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ATS - Main</title>
+    <script src="static/lib/jquery/jquery.min.js"></script>
+    <link href="{{ url_for('static', filename='css/result.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <script>
+      function filter() {
+        let search = document.getElementById("search").value.toLowerCase();
+        let task_card = document.getElementsByClassName("card");
+
+        for (let i = 0; i < task_card.length; i++) {
+          task_name = task_card[i].getElementsByClassName("user_task_name");
+          if (task_name[0].innerHTML.toLowerCase().indexOf(search) != -1)
+          {
+            task_card[i].style.display = "inline-block";
+            task_card[i].style.marginTop = "20px";
+            task_card[i].style.marginBottom = "20px";
+          } else {
+            task_card[i].style.display = "none";
+            task_card[i].style.marginTop = "0px";
+            task_card[i].style.marginBottom = "0px";
+          }
+        }
+      }
+    </script>
+    <style>
+        .card {
+            display:inline-block;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 80%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+        .card-content{
+            text-align: center;
+            height: 320px;
+        }
+
+        .search_box #search{
+            font-size: 1em;
+            border: 0;
+            border-radius: 15px;
+            padding: 10px 15px 10px 15px;
+            background-color: rgb(233, 233, 233);
+        }
+
+        .search_box #search:focus{
+            font-size: 1em;
+            border: 0;
+            outline-color: #0082e6 !important;
+            border-radius: 15px;
+            padding: 10px 15px 10px 15px;
+            background-color: rgb(255, 255, 255);
+            transition: .5s;
+        }
+
+        .search_box{
+            padding: 10px;
+            margin: 20px 100px 20px 100px;
+        }
+    </style>
+    <base href="/results/" />
+</head>
+
+<body>
+    <nav>
+        <label class="logo">Automated Trypanosomiasis Screening</label>
+        <ul>
+            <li><a href="/">Home</a></li>
+            
+            {% if g.user %}
+                <li><a href="/results">Results</a></li>
+            {% else %}
+                <li><a href="/search">Search</a></li>
+            {% endif %}
+    
+            <li><a href="/help">Help</a></li>
+    
+            {% if g.user %}
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/login">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+<div style="padding-top:80px;">
+
+    <h1 style="display: block;">Results for {{ g.user.userid.capitalize() }}’s submitted tasks.</h1>
+    <div class="search_box">
+      <label>Search: <input type="text" id="search" onkeyup="filter()" placeholder="Put your task name here to search" /></label>
+    </div>
+    <div class="card-list">
+    {% for task, date, sensitivity, stage in task_information %}       
+        <div class="card">
+            <div class="card-content">
+                {% if stage == 'done' %}
+                    <a class="user_task_name" href="{{ task }}">{{ task }}</a>
+                    <p>Date: {{date}} </p>
+                    <p>Sensitivity: {{sensitivity}}</p>
+                {% elif stage == 'queued' %}
+                    <a class="user_task_name" href="{{ task }}">{{ task }}</a>
+                    <p>Date: {{date}} </p>
+                    <p>Sensitivity: {{sensitivity}}</p>
+                    </br>
+                    <p> Queued: waiting for processing </p>
+                {% elif stage == 'being_processed' %}
+                    <a class="user_task_name" href="{{ task }}">{{ task }}</a>
+                    <p>Date: {{date}} </p>
+                    <p>Sensitivity: {{sensitivity}}</p>
+                    </br>
+                    <p> Being Processed: worker is working... </p>
+                {% else %}
+                    <a class="user_task_name" href="{{ task }}">{{ task }}</a>
+                    <p>Date: {{date}} </p>
+                    <p>Sensitivity: {{sensitivity}}</p>
+                    </br>
+                    <p> Something went wrong! please contact us at trypa.screening@gmail.com.  </p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+</body>
+
+</html>
