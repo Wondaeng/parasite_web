@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, PasswordField, EmailField, IntegerRangeField
-from wtforms.validators import DataRequired, Length, EqualTo, Email
+from wtforms import StringField, TextAreaField, PasswordField
+from wtforms.fields.html5 import EmailField, IntegerRangeField
+from wtforms.validators import DataRequired, InputRequired, Length, EqualTo, Email, NumberRange
 
 class RegisterForm(FlaskForm):
     userid = StringField('userid', validators=[DataRequired(), Length(min=3, max=25)])
@@ -14,6 +15,7 @@ class UserLoginForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired()])
 
 class FileUploadForm(FlaskForm):
-    username = StringField('username', validators=[DataRequired(), Length(min=3, max=25)])
-    taskname = StringField('taskname', validators=[DataRequired()])
-    threshold = IntegerRangeField('threshold', validators=[DataRequired()])
+    user_name = StringField('user_name', validators=[DataRequired()])
+    email_adress = StringField('email_adress', validators=[DataRequired()])
+    task_name = StringField('task_name', validators=[DataRequired()])
+    sensitivity = IntegerRangeField('sensitivity', validators=[]) # Not WORKING? 
