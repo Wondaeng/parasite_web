@@ -1,0 +1,462 @@
+body {
+  margin: 0;
+  line-height: normal;
+}
+.design-process,
+.quidam-officiis-simi {
+  margin: 0;
+  position: absolute;
+  left: 0;
+  display: inline-block;
+  width: 495px;
+}
+.design-process {
+  top: 0;
+  font-size: inherit;
+  line-height: 80px;
+  font-weight: 700;
+  font-family: inherit;
+}
+.quidam-officiis-simi {
+  top: 264px;
+  font-size: var(--font-size-base);
+  line-height: 32px;
+}
+.rectangle {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: var(--br-2xl);
+  background-color: var(--color-indigo);
+}
+.button {
+  position: relative;
+  font-size: var(--m3-body-large-size);
+  line-height: 24px;
+  font-family: var(--font-dm-sans);
+  color: var(--color-white);
+  text-align: center;
+}
+.lightbuttonprimarytext {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 576px;
+  left: 0;
+  width: 186px;
+  height: 48px;
+}
+.design-process-parent {
+  position: absolute;
+  top: 226px;
+  left: 352px;
+  width: 495px;
+  height: 624px;
+  text-align: left;
+  font-size: var(--font-size-2xl);
+  color: var(--color-gray-1400);
+  font-family: var(--font-dm-sans);
+}
+.desktop-home-1-child {
+  position: absolute;
+  top: 80px;
+  left: 970px;
+  width: 598px;
+  height: 944px;
+  display: none;
+}
+.website-works {
+  color: var(--color-indigo);
+}
+.design-process1 {
+  margin: 0;
+  position: absolute;
+  top: 110px;
+  left: 737px;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  font-family: inherit;
+}
+.quidam-officiis-simi1 {
+  margin: 0;
+  position: absolute;
+  top: 186px;
+  left: 558px;
+  display: inline-block;
+  width: 804px;
+}
+.flowchart-step-title,
+.flowchart-step-content {
+  position: absolute;
+  top: 99px;
+  left: 0;
+  display: inline-block;
+  width: 186px;
+}
+.flowchart-step-content {
+  top: 128px;
+  font-size: var(--font-size-2xs);
+}
+.group-child {
+  position: absolute;
+  top: 0;
+  left: 52px;
+  border-radius: var(--br-xl);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-800);
+  box-sizing: border-box;
+  width: 83px;
+  height: 83px;
+}
+.flowchart-step-parent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 186px;
+  height: 160px;
+}
+.design-process2 {
+  position: absolute;
+  top: 11px;
+  left: 85px;
+  font-size: var(--font-size-xl);
+  color: var(--color-indigo);
+}
+.group-parent {
+  position: absolute;
+  top: 295px;
+  left: 351px;
+  background-color: var(--color-white);
+  width: 186px;
+  height: 176px;
+  overflow: hidden;
+}
+.flowchart-step-parent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 186px;
+  height: 144px;
+}
+.design-process3 {
+  position: absolute;
+  top: 11px;
+  left: 79px;
+  font-size: var(--font-size-xl);
+  color: var(--color-indigo);
+}
+.group-container {
+  position: absolute;
+  top: 295px;
+  left: 609px;
+  background-color: var(--color-white);
+  width: 186px;
+  height: 176px;
+  overflow: hidden;
+}
+.frame-div,
+.quidam-officiis-simi-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 186px;
+  height: 176px;
+}
+.frame-div {
+  top: 295px;
+  left: 867px;
+  background-color: var(--color-white);
+  overflow: hidden;
+}
+.design-process5 {
+  position: absolute;
+  top: 11px;
+  left: 77px;
+  font-size: var(--font-size-xl);
+  color: var(--color-indigo);
+}
+.group-parent1,
+.group-parent2 {
+  position: absolute;
+  top: 295px;
+  left: 1124px;
+  background-color: var(--color-white);
+  width: 186px;
+  height: 176px;
+  overflow: hidden;
+}
+.group-parent2 {
+  left: 1382px;
+}
+.desktop-home-2-child {
+  position: absolute;
+  top: 375.64px;
+  left: 545px;
+  width: 57px;
+  height: 14.73px;
+}
+.arrow-icon,
+.desktop-home-2,
+.desktop-home-2-inner,
+.desktop-home-2-item {
+  position: absolute;
+  top: 375.64px;
+  left: 803px;
+  width: 57px;
+  height: 14.73px;
+}
+.arrow-icon,
+.desktop-home-2,
+.desktop-home-2-inner {
+  left: 1061px;
+}
+.arrow-icon,
+.desktop-home-2 {
+  left: 1318px;
+}
+.desktop-home-2 {
+  top: 1024px;
+  left: 0;
+  background-color: var(--color-white);
+  width: 1920px;
+  height: 581px;
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--m3-body-large-size);
+  color: var(--color-gray-1400);
+  font-family: var(--font-dm-sans);
+}
+.all-over {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+.the-world {
+  margin: 0;
+}
+.all-over-the-container {
+  margin: 0;
+  position: absolute;
+  top: 101.5px;
+  left: 352px;
+  font-size: 56px;
+  line-height: 64px;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--color-gray-1400);
+}
+.quidam-officiis-simi12 {
+  margin: 0;
+  position: absolute;
+  top: 247.5px;
+  left: 352px;
+  line-height: 24px;
+  display: inline-block;
+  width: 495px;
+  height: 81px;
+}
+.shape,
+.shape-child {
+  width: 24px;
+  height: 22px;
+}
+.shape-child {
+  position: absolute;
+  top: 359.5px;
+  left: 352px;
+}
+
+.shape-item,
+.shape1 {
+  width: 24px;
+  height: 23px;
+}
+.shape-item {
+  position: absolute;
+  top: 406.5px;
+  left: 352px;
+}
+
+.shape-inner,
+.shape2 {
+  width: 24px;
+  height: 24px;
+}
+.shape-inner {
+  position: absolute;
+  top: 453.5px;
+  left: 352px;
+}
+
+.facilis-sea-an,
+.scripserit-vocibus,
+.sed-commune-erroribu {
+  position: absolute;
+  top: 359.5px;
+  left: 392px;
+  line-height: 24px;
+}
+.facilis-sea-an,
+.scripserit-vocibus {
+  top: 407.5px;
+}
+.facilis-sea-an {
+  top: 455.5px;
+}
+.desktop-home-3,
+.desktop-home-3-child {
+  position: absolute;
+  top: 0;
+  left: 970px;
+  width: 598px;
+  height: 581px;
+}
+.desktop-home-3 {
+  top: 1605px;
+  left: 0;
+  background-color: var(--color-white);
+  width: 1920px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--m3-body-large-size);
+  color: var(--color-gray-1000);
+  font-family: var(--font-dm-sans);
+}
+.rectangle1 {
+  position: absolute;
+  top: 110px;
+  left: 352px;
+  border-radius: var(--br-md);
+  background-color: #e3f0ff;
+  width: 1216px;
+  height: 272px;
+}
+.follow-us,
+.noluisse-similique-t {
+  margin: 0;
+  position: absolute;
+  left: 376px;
+}
+.follow-us {
+  top: 183.5px;
+  font-size: var(--font-size-lg);
+  line-height: 48px;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--color-gray-1400);
+}
+.noluisse-similique-t {
+  top: 252.5px;
+  line-height: 24px;
+  display: inline-block;
+  width: 570px;
+  height: 55px;
+}
+.facebook-child {
+  position: absolute;
+  top: 213.5px;
+  left: 1320px;
+  width: 64px;
+  height: 64px;
+}
+
+.instagram-child {
+  position: absolute;
+  top: 213.5px;
+  left: 1384px;
+  width: 64px;
+  height: 64px;
+}
+
+.twitter-child {
+  position: absolute;
+  top: 213.5px;
+  left: 1448px;
+  width: 64px;
+  height: 64px;
+}
+
+.social {
+  left: 1320px;
+  width: 224px;
+}
+.quidam-officiis-simi13 {
+  position: absolute;
+  top: 492px;
+  left: 789px;
+  line-height: 24px;
+}
+.desktop-home-4 {
+  position: absolute;
+  top: 2167px;
+  left: 0;
+  background-color: var(--color-white);
+  width: 1920px;
+  height: 556px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--m3-body-large-size);
+  color: var(--color-gray-1000);
+  font-family: var(--font-dm-sans);
+}
+.pexels-tara-winstead-8386437-1-icon {
+  position: absolute;
+  top: 175px;
+  left: 970px;
+  border-radius: 20px;
+  width: 598px;
+  height: 753px;
+  object-fit: cover;
+}
+
+
+
+.active {
+  color: var(--color-gray-1400);
+  font-family: var(--font-dm-sans);
+}
+
+.non-active {
+  color: var(--color-gray-1600);
+  font-family: var(--font-dm-sans);
+}
+
+.active, 
+.non-active{
+  display: inline-block;
+  padding: 10px;
+  vertical-align: middle;
+}
+
+#main-navigator {
+  text-align: center;
+  font-size: var(--m3-body-large-size);
+  line-height: 24px;
+  display: inline-block;
+  font-family: var(--font-dm-sans);
+}
+.header {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.5);
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 80px;
+}
+
+.header ul{
+  padding: 0;
+}
+
+.desktop-home-1 {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 1700px;
+  overflow: hidden;
+}

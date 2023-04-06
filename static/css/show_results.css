@@ -1,0 +1,144 @@
+body {
+  margin: 0;
+  line-height: normal;
+  font-family: var(--font-dm-sans);
+  width: 100%;
+}
+
+
+.active {
+  color: var(--color-gray-1400);
+  font-family: var(--font-dm-sans);
+}
+
+.non-active {
+  color: var(--color-gray-1600);
+  font-family: var(--font-dm-sans);
+}
+
+.active, 
+.non-active{
+  display: inline-block;
+  padding: 10px;
+  vertical-align: middle;
+}
+
+#main-navigator {
+  text-align: center;
+  font-size: var(--m3-body-large-size);
+  line-height: 24px;
+  display: inline-block;
+  font-family: var(--font-dm-sans);
+}
+.header {
+  background-color: rgba(255, 255, 255, 0.5);
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 80px;
+}
+
+.header ul{
+  padding: 0;
+}
+
+
+h1, h2{
+  font-family: var(--font-dm-sans);
+  margin-top: 10px;
+  margin-left: 80px;
+  margin-bottom: 10px;
+  margin-right: 80px;
+}
+
+h2 {
+  font-size: var(--font-size-base);
+  line-height: 32px;
+  font-weight: normal;
+}
+
+
+.content-body {
+  width: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.thumbnail_box {
+    margin: auto;
+    text-align: center;
+    width: 70%;
+    height: 600px;
+    overflow: auto;
+    overflow-y: scroll;
+}
+
+
+.imshow_box {
+    margin: auto;
+    text-align: center;
+    width: 70%;
+    height: 500px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.thumbnail_container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.thumbnail_item{
+    margin-left: 5%;
+    margin-right: 5%;
+    float: left;
+    
+}
+
+
+.result_thumbnail {
+    background-color:gray;
+    margin:10px;
+    width:150px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.result_thumbnail:hover {
+    transform: scale(1.2);
+    transition: .3s;
+}
+
+.result_thumbnail.round {
+    border-radius: 10%;
+}
+
+.imshow_box img{
+    width: 500px;
+    margin: 20px 20px 20px 20px;
+
+}
+
+#thumbnail_box_bbox, #thumbnail_box_conf{
+    display: none;
+}
+
+#filter_box {
+    margin-top: 20px;
+    margin-left: 100px;
+    margin-bottom: 20px;
+
+}
