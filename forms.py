@@ -15,7 +15,6 @@ class UserLoginForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired()])
 
 class FileUploadForm(FlaskForm):
-    user_name = StringField('user_name', validators=[DataRequired()])
     email_adress = StringField('email_adress', validators=[DataRequired()])
     task_name = StringField('task_name', validators=[DataRequired()])
     sensitivity = IntegerRangeField('sensitivity', validators=[]) # Not WORKING? 
