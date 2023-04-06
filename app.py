@@ -145,10 +145,11 @@ def upload(): # Form is submitted here
 
     global data_path
     global result_path
-
+    
     form = FileUploadForm()
 
     # Get data from POSTed form
+    print(form)
     files = request.files
     task_name = form.task_name.data
     
