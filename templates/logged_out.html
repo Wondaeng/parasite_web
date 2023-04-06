@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link href="{{ url_for('static', filename='css/global.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/logged_out.css') }}" rel="stylesheet">
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM Sans:wght@400;500;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
+    />
+    <title>ATS - Logged Out</title>
+    <base href="/">
+  </head>
+  <body>
+
+    <nav class="header" id="main-navigator">
+        <ul>
+          <a href="{{url_for('index')}}" ><b><li class="active">Home</li></b></a>
+          <a href="{{url_for('upload')}}"><b><li class="non-active">Task</li></b></a>
+          <a href="help"><b><li class="non-active">Help</li></b></a>
+
+          {% if g.user %}
+          <a href="logout"><b><li class="non-active">LogOut</li></b></a>
+          {% else %}
+          <a href="login"><b><li class="non-active">LogIn</li></b></a>
+          {% endif %}
+        </ul>
+    </nav>
+
+
+    <h1>The session expires or is invalid requests.</h1>
+    <h2>Session automatically expires every 2 hours. Please log-in again.</h2>
+
+
+  </body>
+</html>

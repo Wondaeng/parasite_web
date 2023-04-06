@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link href="{{ url_for('static', filename='css/global.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM Sans:wght@400;500;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
+    />
+    <title>ATS - Main</title>
+  </head>
+  <body>
+    <div class="desktop-home-1" id="main-flowchart-step3">
+      <section class="design-process-parent" id="section-main-intro">
+        <h1 class="design-process" id="main-intro-title">
+          Automated Trypanosomiasis Screening
+        </h1>
+        <p class="quidam-officiis-simi" id="main-intro-paragraph">
+          This website provides a demo for trypanosome parasite detection from
+          microscopy videos of thick blood smears. This parasite detection
+          component is critical in our pipeline for the automated screening of
+          trypanosomiasis using AI. This website, when completed, aims to
+          demonstrate a proof-of-concept of a trustworthy AI system that can
+          greatly augment lab technicians while also providing an effective
+          human-in-the-loop interface.
+        </p>
+
+        <a href="upload" ><button class="lightbuttonprimarytext" id="main-intro-button">
+          <div class="rectangle"></div>
+          <b class="button">Get Started</b>
+        </button></a>
+
+      </section>
+      <img class="desktop-home-1-child" alt="" src="{{ url_for('static', filename='public/group-2.svg') }}" />
+      <section class="desktop-home-2" id="section-main-flowchart">
+        <h3 class="design-process1" id="main-flowchart-title">
+          <span>How the </span><span class="website-works">website works</span>
+        </h3>
+
+        <div class="group-parent" id="main-flowchart-step1">
+          <div class="flowchart-step-parent">
+            <b class="flowchart-step-title">Sign In / Sign Up</b>
+            <div class="flowchart-step-content">
+              You can send jobs as guest without signing up.
+            </div>
+            <div class="group-child"></div>
+          </div>
+          <b class="design-process2">1</b>
+        </div>
+
+        <div class="group-container" id="main-flowchart-step2">
+          <div class="flowchart-step-parent">
+            <b class="flowchart-step-title">Name Task</b>
+            <div class="flowchart-step-content">Input a name for your task.</div>
+            <div class="group-child"></div>
+          </div>
+          <b class="design-process3">2</b>
+        </div>
+
+        <div class="frame-div" id="main-flowchart-step3">
+          <div class="flowchart-step-parent">
+            <b class="flowchart-step-title">Choose Sensitivity</b>
+            <div class="flowchart-step-content">
+              Parasite detection results depend on the model sensitivity.
+              Default sensitivity is 90%.
+            </div>
+            <div class="group-child"></div>
+          </div>
+          <b class="design-process3">3</b>
+        </div>
+
+        <div class="group-parent1" id="main-flowchart-step4">
+          <div class="flowchart-step-parent">
+            <b class="flowchart-step-title">Upload Videos</b>
+            <div class="flowchart-step-content">
+              Select the videos you need to analyze and upload them.
+            </div>
+            <div class="group-child"></div>
+          </div>
+          <b class="design-process5">4</b>
+        </div>
+
+        <div class="group-parent2" id="main-flowchart-step5">
+          <div class="flowchart-step-parent">
+            <b class="flowchart-step-title">Get Results</b>
+            <div class="flowchart-step-content">
+              Once the job is processed, the results will be emailed.
+            </div>
+            <div class="group-child"></div>
+          </div>
+          <b class="design-process5">5</b>
+        </div>
+
+        <img class="desktop-home-2-child" alt="" src="{{ url_for('static', filename='public/arrow-1.svg') }}"/><img
+          class="desktop-home-2-item"
+          alt=""
+          src="{{ url_for('static', filename='public/arrow-1.svg') }}"
+        /><img
+          class="desktop-home-2-inner"
+          alt=""
+          src="{{ url_for('static', filename='public/arrow-1.svg') }}"
+        /><img class="arrow-icon" alt="" src="{{ url_for('static', filename='public/arrow-1.svg') }}" />
+      </section>
+
+<!--       <section class="desktop-home-3" id="section-main-additional">
+        <h2 class="all-over-the-container" id="main-additional-title">
+          <p class="all-over">All over</p>
+          <p class="the-world">the world</p>
+        </h2>
+        <p class="quidam-officiis-simi12" id="main-additional-paragraph">
+          Quidam officiis similique sea ei, vel tollit indoctum efficiendi ei,
+          at nihil tantas platonem eos. Mazim nemore singulis an ius, nullam
+          ornatus nam ei. Idque maiestatis vis ut.
+        </p>
+        <div class="shape-container">
+          <div class="shape">
+            <img class="shape-child" alt="" id="main-additional-icon1" src="{{ url_for('static', filename='public/shape1.svg') }}"/>
+          </div>
+          <div class="shape1">
+            <img class="shape-item" alt="" id="main-additional-icon2" src="{{ url_for('static', filename='public/shape2.svg') }}"/>
+          </div>
+          <div class="shape2">
+            <img class="shape-inner" alt="" id="main-additional-icon3" src="{{ url_for('static', filename='public/shape3.svg') }}"/>
+          </div>
+          <div class="sed-commune-erroribu">Sed commune erroribus</div>
+          <div class="scripserit-vocibus">Scripserit vocibus</div>
+          <div class="facilis-sea-an">Facilis sea an</div>
+        <div>
+        <img class="desktop-home-3-child" alt="" src="{{ url_for('static', filename='public/group-21.svg') }}"/>
+      </section>
+      <section class="desktop-home-4" id="section-main-footer">
+        <div class="rectangle1" id="main-footer-container"></div>
+        <h3 class="follow-us" id="main-footer-title">Follow us</h3>
+        <p class="noluisse-similique-t" id="main-footer-paragraph">
+          Noluisse similique te his. Sed consul vocent ex, has vero mandamus eu,
+          ei eam alia recusabo. Id harum vocibus dolores vel, sea dissentiunt.
+        </p>
+        <div class="social">
+          <div class="facebook">
+            <img class="facebook-child" alt="" id="main-footer-facebook" src="{{ url_for('static', filename='public/facebook.svg') }}"/>
+          </div>
+          <div class="twitter">
+            <img class="twitter-child" alt="" id="main-footer-twitter" src="{{ url_for('static', filename='public/twitter.svg') }}"/>
+          </div>
+          <div class="instagram">
+            <img class="instagram-child" alt="" id="main-footer-instagram" src="{{ url_for('static', filename='public/instagram.svg') }}"/>
+          </div>
+        </div>
+        <span class="quidam-officiis-simi13" id="main-footer-copyright"
+          >© GHENT UNIVERSITY 2023 All rights reserved.</span
+        > -->
+      </section>
+      <img
+        class="pexels-tara-winstead-8386437-1-icon"
+        alt=""
+        id="main-img1"
+        src="{{ url_for('static', filename='public/pexelstarawinstead8386437-1@2x.png') }}"
+      /> 
+
+      <nav class="header" id="main-navigator">
+        <ul>
+          <a href="{{url_for('index')}}" ><b><li class="active">Home</li></b></a>
+          <a href="{{url_for('upload')}}"><b><li class="non-active">Task</li></b></a>
+          <a href="help"><b><li class="non-active">Help</li></b></a>
+
+          {% if g.user %}
+          <a href="logout"><b><li class="non-active">LogOut</li></b></a>
+          {% else %}
+          <a href="login"><b><li class="non-active">LogIn</li></b></a>
+          {% endif %}
+        </ul>
+      </nav>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM Sans:wght@400;500;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
+    />
+    <title>ATS - Upload</title>
+  </head>
+  <body>
+ 
+  <div class="desktop-2">      
+
+      {% if not g.user %}
+      <div id="guest-login-div">
+        <button class="login-modal-button" id="login-button">
+          <div class="button-background"></div>
+          <b class="login-modal-button-text">LogIn</b>
+        </button>
+
+        <div class="guest-login-text" id="demo-guest-info">
+          If you want to keep track of your history, please LogIn
+        </div>
+      </div>
+      {% endif %}
+
+      <form id="form_upload" class="upload-form" enctype="multipart/form-data" method="POST">
+        <div class="upload-form-card"></div>
+        <div class="upload-form-name">
+          <input id="task_name" class="upload-form-input" form="form_upload" type="text" placeholder="Task Name"  name="task_name" required/>
+          <div class="upload-form-title">Task Name</div>
+        </div>
+        <div class="upload-form-email">
+          <input id="email_address" class="upload-form-input" value ="{{ user_email }}" form="form_upload" type="email" placeholder="Email Address" name="email_address" required/>
+          <div class="upload-form-title">Email</div>
+        </div>
+        <div class="rectangle-group">
+          <input id="sensitivity" type="range" form="form_upload" min="1" max="100" value="50" class="slider" name="sensitivity" required/>
+          <div class="upload-form-title">Sensitivity Threshold</div>
+          <div id="sensitivity-value"></div><div id="sensitivity-value-percent">%</div>
+          <script>
+            var slider = document.getElementById("sensitivity");
+            var output = document.getElementById("sensitivity-value");
+            output.innerHTML = slider.value; // Display the default slider value
+
+            // Update the current slider value (each time you drag the slider handle)
+            slider.oninput = function() {
+            output.innerHTML = this.value;
+            }
+          </script>
+        </div>
+
+        <div class="upload-form-attachment" id="login-guest-form-attachment">
+          <div class="upload-form-title">Attachment</div>
+          <div class="dropzone upload-form-attachment-dropzone" id="myDropzone"></div>
+        </div>
+        
+        <button type="submit" class="upload-button" id="upload-form-btn">
+          <div class="button-background"></div>
+          <b class="upload-button-text">Upload Task</b>
+        </button>
+
+        <p class="help-text-container" id="login-guest-form-help">
+          <span class="help-text-normal">For more detail about how to use, go to </span>
+          <span class="help-text-link">help</span>
+          <span class="help-text-normal"> page</span>
+        </p>
+      </form>
+
+      <script>
+        Dropzone.options.myDropzone= {
+            url: 'upload',
+            autoProcessQueue: false,
+            uploadMultiple: true,
+            parallelUploads: 1000,
+            maxFiles: 1000,
+            maxFilesize: 1000,
+            acceptedFiles: 'image/*, video/*', 
+            addRemoveLinks: true,
+            init: function() {
+                dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+
+                // for Dropzone to process the queue (instead of default form behavior):
+                document.getElementById("upload-form-btn").addEventListener("click", function(e) {
+                    // Make sure that the form isn't actually being sent.
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!(jQuery("#task_name").val()) || !(jQuery("#email_address").val())){
+                       alert("Please fill all fields of the form.")
+                    } else {
+                      dzClosure.processQueue();
+                    }
+                });
+
+                //send all the form data along with the files:
+                this.on("sendingmultiple", function(data, xhr, formData) {
+                    formData.append("task_name", jQuery("#task_name").val());
+                    formData.append("email_address", jQuery("#email_address").val());
+                    formData.append("sensitivity", jQuery("#sensitivity").val());
+                });
+
+                // redirect after upload finished
+                this.on("success", function(file) {
+                    window.location.href="upload"
+                });
+            }
+        }
+      </script>
+
+      {% if g.user %}
+          
+          <div class="stacked-card-list">
+          {% for task, date, sensitivity, stage, thumbnail_url in task_information %}     
+            <div class="stacked-card" id="user-result-card">
+                {% if stage == 'done' %}
+                 
+                    <img
+                      class="media-icon"
+                      alt=""
+                      id="user-result-card-thumbnail"
+                      src="{{ url_for('static', filename=thumbnail_url) }}"
+                    />
+                    <a href="results/{{ task }}">
+                    <div class="task_headline" id="user-result-card-headline">
+                      <span class="task_title" id="user-result-card-taskname"
+                        >{{task}}</span
+                      ><span class="task_date" id="user-result-card-date"
+                        >{{date}}</span
+                      ><span class="task_sensitivity" id="user-result-card-sensitivity">Sensitivity: {{sensitivity}}%</span>
+                    </div>
+                    </a>
+                {% elif stage == 'queued' %}
+                    <img
+                      class="media-icon"
+                      alt=""
+                      id="user-result-card-thumbnail"
+                      src="{{ url_for('static', filename='public/media.svg') }}"
+                    />
+                    <a href="results/{{ task }}">
+                    <div class="task_headline" id="user-result-card-headline">
+                      <span class="task_title" id="user-result-card-taskname"
+                        >{{task}}</span
+                      ><span class="task_date" id="user-result-card-date"
+                        >{{date}}</span
+                      ><span class="task_sensitivity" id="user-result-card-sensitivity">Sensitivity: {{sensitivity}}%</span>
+                    </div>
+                    </a>
+                {% elif stage == 'being_processed' %}
+                    <img
+                      class="media-icon"
+                      alt=""
+                      id="user-result-card-thumbnail"
+                      src="{{ url_for('static', filename='public/media.svg') }}"
+                    />
+                    <a href="results/{{ task }}">
+                    <div class="task_headline" id="user-result-card-headline">
+                      <span class="task_title" id="user-result-card-taskname"
+                        >{{task}}</span
+                      ><span class="task_date" id="user-result-card-date"
+                        >{{date}}</span
+                      ><span class="task_sensitivity" id="user-result-card-sensitivity">Sensitivity: {{sensitivity}}%</span>
+                    </div>
+                    </a>
+                {% else %}
+                    <img
+                      class="media-icon"
+                      alt=""
+                      id="user-result-card-thumbnail"
+                      src="{{ url_for('static', filename='public/media.svg') }}"
+                    />
+                    <a href="results/{{ task }}">
+                    <div class="task_headline" id="user-result-card-headline">
+                      <span class="task_title" id="user-result-card-taskname"
+                        >{{task}}</span
+                      ><span class="task_date" id="user-result-card-date"
+                        >{{date}}</span
+                      ><span class="task_sensitivity" id="user-result-card-sensitivity">Sensitivity: {{sensitivity}}%</span>
+                    </div>
+                    </a>
+                {% endif %}
+                </div>
+            {% endfor %}
+            </div>
+            
+      {% endif %}
+
+      <nav class="header" id="demo-guest-navigator">
+        <ul>
+          <a href="{{url_for('index')}}" ><b><li class="non-active">Home</li></b></a>
+          <a href="{{url_for('upload')}}"><b><li class="active">Task</li></b></a>
+          <a href="help"><b><li class="non-active">Help</li></b></a>
+
+          {% if g.user %}
+          <a href="logout"><b><li class="non-active">LogOut</li></b></a>
+          {% else %}
+          <a href="login"><b><li class="non-active">LogIn</li></b></a>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+    </div>
+
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="upload-alert-{{ category }}" role="alert">
+        <div class="upload-alert-{{ category }}-flash">{{ message }}</div>
+    </div>
+    {% endfor %}
+
+    
+
+    <div class="rectangle-container"  id=login-modal>
+       <form action="/login" method ="POST" enctype="multipart/form-data" class="login-modal">
+        {{login_form.csrf_token}}
+        <div class="frame-child"></div>
+            <span class="close" id="login-modal-close">&times;</span>
+          <input
+            class="email5"
+            type="text"
+            placeholder="User ID"
+            required
+            id="userid"
+            name="userid"
+            autocomplete="off"
+            value="{{ login_form.userid.data or '' }}"
+          /><input
+            class="password"
+            type="password"
+            placeholder="Password"
+            id="password"
+            name="password"
+            autocomplete="off"
+            value="{{ login_form.password.data or '' }}"
+          />
+
+          <button type="submit" class="button5" id="login-button">
+            <b class="login">Login</b>
+          </button>
+
+        <div class="remember-me">Remember me</div>
+        <input class="frame-item" type="checkbox" id="log-in-remember" /><b
+          class="sign-in"
+          >Sign In</b
+        >
+        <a class="forgot-password">Forgot password?</a>
+        <span class="dont-have-an-container" id="log-in-register"><span>Don’t have an account? 
+        <a href="register"></span><b class="create-account">Create Account</b></span></a>
+      </div>
+    </div>
+    {% if not g.user %}
+    <script src="{{ url_for('static', filename='js/login_modal.js') }}"></script>
+    {% endif %}
+  </body>
+</html>
