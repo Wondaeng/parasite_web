@@ -71,7 +71,7 @@ if __name__ == '__main__':
                 video_path_lst = [os.path.join(data_path, i) for i in video_name_lst]
                 result_path_lst = [os.path.join(visual_path, i) for i in video_name_lst]
 
-                detection_model = build_detection_model('./model_best.pth', "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml", confidence_threshold=threshold)  # Hard-coded !!!
+                detection_model = build_detection_model('./model_25.pth', confidence_threshold=threshold)  # Hard-coded !!!
 
                 # Convert uploaded videos into frames in img_src
                 for vid_path, vid_name, result_path in zip(video_path_lst, video_name_lst, result_path_lst):
