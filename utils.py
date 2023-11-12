@@ -47,7 +47,7 @@ def send_email(user_name, user_email, task_name, info_type):
                         <p>Email: {user_email}</p>
                         <p>Task Name: {task_name}</p>
                         <p>Go to result section of the page after logged in.</p>
-                        <p>http://223.194.227.150:5002</p>
+                        <p>http://XXX.XXX.XXX.XXX:5002</p>
                     </body>
                 </html>
                 """
@@ -63,7 +63,7 @@ def send_email(user_name, user_email, task_name, info_type):
                         <p>Email: {user_email}</p>
                         <p>Task Name: {task_name}</p>
                         <p>Go to result section of the page after logged in.</p>
-                        <p>http://223.194.227.150:5002</p>
+                        <p>http://XXX.XXX.XXX.XXX:5002</p>
                     </body>
                 </html>
                 """
@@ -80,7 +80,7 @@ def send_email(user_name, user_email, task_name, info_type):
                         <p>Email: {user_email}</p>
                         <p>Task Name: {task_name}</p>
                         <p>Go to result section of the page after logged in.</p>
-                        <p>http://223.194.227.150:5002</p>
+                        <p>http://XXX.XXX.XXX.XXX:5002</p>
                     </body>
                 </html>
                 """
@@ -96,7 +96,7 @@ def send_email(user_name, user_email, task_name, info_type):
                         <p>Email: {user_email}</p>
                         <p>Task Name: {task_name}</p>
                         <p>Go to result section of the page after logged in.</p>
-                        <p>http://223.194.227.150:5002</p>
+                        <p>http://XXX.XXX.XXX.XXX:5002</p>
                     </body>
                 </html>
                 """
