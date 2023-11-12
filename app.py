@@ -22,7 +22,7 @@ app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = 'trypa.screening@gmail.com'
-app.config['MAIL_PASSWORD'] ='kyfwwjrnyypkhysw'
+app.config['MAIL_PASSWORD'] ='xxxxxxxxxxxx'
 app.config['MAIL_DEFAULT_SENDER'] = 'trypa.screening@gmail.com'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
@@ -39,17 +39,17 @@ data_path = "./static/user_data/"
     if not user_name:  # If guest user
         if info_type == 'finish':
             msg = Message(f'Your job is finished! - {task_name}', sender=('Trypa Screening', 'trypa.screening@gmail.com'), recipients=[f'{user_email}'])
-            msg.body = '''Your job is finished! Go to search page and check it out. (http://223.194.227.150:5002/)'''
+            msg.body = '''Your job is finished! Go to search page and check it out. (http://xxx.xxx.xxx.xxx:5002/)'''
         elif info_type == 'submit':
             msg = Message(f'Your job is submitted! - {task_name}', sender=('Trypa Screening', 'trypa.screening@gmail.com'), recipients=[f'{user_email}'])
-            msg.body = '''Your job is submitted! We will notify you through email when the job is finihsed. (http://223.194.227.150:5002/)'''
+            msg.body = '''Your job is submitted! We will notify you through email when the job is finihsed. (http://xxx.xxx.xxx.xxx:5002/)'''
     else:  # If user logged in
         if info_type == 'finish':
             msg = Message(f'Your job is finished! - {task_name}', sender=('Trypa Screening', 'trypa.screening@gmail.com'), recipients=[f'{user_email}'])
-            msg.body = '''Your job is finished! Login and go to result page. (http://223.194.227.150:5002/)'''
+            msg.body = '''Your job is finished! Login and go to result page. (http://xxx.xxx.xxx.xxx:5002/)'''
         elif info_type == 'submit':
             msg = Message(f'Your job is submitted! - {task_name}', sender=('Trypa Screening', 'trypa.screening@gmail.com'), recipients=[f'{user_email}'])
-            msg.body = '''Your job is submitted! We will notify you through email when the job is finihsed. (http://223.194.227.150:5002/)'''
+            msg.body = '''Your job is submitted! We will notify you through email when the job is finihsed. (http://xxx.xxx.xxx.xxx:5002/)'''
     mail.send(msg)
     return 'email is sent'"""
 
